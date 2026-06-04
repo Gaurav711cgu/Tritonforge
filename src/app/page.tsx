@@ -929,8 +929,15 @@ export default function TritonForgePage() {
         <div className="nav-inner">
           <div className="nav-logo">⚡ TritonForge</div>
           <div className="nav-links">
-            {['Motivation', 'Kernels', 'Benchmarks', 'Research', 'Blogs', 'Install'].map(l => (
-              <a key={l} href={`#${l.toLowerCase()}`} className="nav-link">{l}</a>
+            {[
+              { label: 'Motivation', href: '#motivation' },
+              { label: 'Kernels',    href: '#kernels' },
+              { label: 'Benchmarks', href: '#benchmarks' },
+              { label: 'Research',   href: '#research' },
+              { label: 'Blogs',      href: '#blogs' },
+              { label: 'Install',    href: '#install' },
+            ].map(({ label, href }) => (
+              <a key={label} href={href} className="nav-link">{label}</a>
             ))}
             <a href="https://github.com/Gaurav711cgu/TritonForge" target="_blank" rel="noreferrer" className="nav-cta">
               GitHub ↗
@@ -1000,7 +1007,7 @@ export default function TritonForgePage() {
       </section>
 
       {/* STATS */}
-      <section className="tf-stats" ref={statsRef} id="motivation">
+      <section className="tf-stats" ref={statsRef}>
         <StatCard label="RMSNorm Speedup" value={8.2} unit="×" started={statsVisible} isHighlight={true} />
         <StatCard label="HBM Memory Saved (Attn N=2048)" value={99.2} unit="%" started={statsVisible} />
         <StatCard label="Peak BW Utilized" value={91} unit="%" started={statsVisible} />
@@ -1522,7 +1529,7 @@ export default function TritonForgePage() {
       </section>
 
       {/* BENCHMARKS PLAYGROUND */}
-      <section className="tf-section" id="playground">
+      <section className="tf-section" id="benchmarks">
         <div className="section-header">
           <div className="section-eyebrow">Playground</div>
           <h2 className="section-title">Live Benchmark Playground</h2>
