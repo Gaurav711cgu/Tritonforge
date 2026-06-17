@@ -3,23 +3,23 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0d0d0b;
-  --foreground: #F5F5F0;
+  --background: #06090e; /* Cold deep-graphite/navy space */
+  --foreground: #f0f4f8; /* Soft blue-white text */
   
-  --bg-canvas: #0d0d0b;
-  --bg-surface: #13120f;
-  --bg-surface-elevated: #1a1916;
-  --border-subtle: #2a2825;
-  --border-focus: #06b6d4;
+  --bg-canvas: #06090e;
+  --bg-surface: #0b0f17; /* Dark slate card background */
+  --bg-surface-elevated: #111622; /* Elevated card background */
+  --border-subtle: #1b2336; /* Cold border line */
+  --border-focus: #00E5FF; /* High-voltage electric cyan */
   
-  --color-violet: #06b6d4;
-  --color-indigo: #0891b2;
-  --color-cyan: #06b6d4;
-  --color-emerald: #4CAF50;
-  --color-rose: #06b6d4;
-  --color-amber: #FFA726;
-  --color-slate-muted: #A09D96;
-  --color-slate-dark: #111110;
+  --color-violet: #00E5FF;
+  --color-indigo: #0097a7;
+  --color-cyan: #00E5FF;
+  --color-emerald: #00e676; /* Neon emerald green */
+  --color-rose: #00E5FF;
+  --color-amber: #ff9100;
+  --color-slate-muted: #8fa0b5; /* Slate-blue secondary text */
+  --color-slate-dark: #070a0f;
 }
 
 body {
@@ -71,7 +71,7 @@ body {
   justify-content: space-between;
 }
 .nav-logo {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 1.25rem;
   font-weight: 700;
   letter-spacing: 1.5px;
@@ -155,11 +155,11 @@ body {
   margin-bottom: 1rem;
 }
 .hero-title {
-  font-family: 'Inter', sans-serif;
-  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 4.2rem);
   font-weight: 800;
   line-height: 1.1;
-  letter-spacing: -0.5px;
+  letter-spacing: -1px;
   margin-bottom: 1.5rem;
   color: var(--foreground);
 }
@@ -311,8 +311,8 @@ body {
   margin-bottom: 0.75rem;
 }
 .section-title {
-  font-family: 'Inter', sans-serif;
-  font-size: 22px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 24px;
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: 1rem;
@@ -467,8 +467,8 @@ body {
   border-radius: 2px;
 }
 .kd-name {
-  font-family: 'Inter', sans-serif;
-  font-size: 1.5rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.6rem;
   font-weight: 700;
 }
 .kd-math {
