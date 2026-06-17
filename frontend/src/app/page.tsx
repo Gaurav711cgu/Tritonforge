@@ -928,7 +928,10 @@ export default function TritonForgePage() {
       {/* NAV */}
       <nav className="tf-nav">
         <div className="nav-inner">
-          <div className="nav-logo">TRITONFORGE</div>
+          <div className="nav-logo flex items-center gap-2">
+            <img src="/logo.png" alt="TritonForge Logo" className="brand-logo-img" />
+            <span>TRITONFORGE</span>
+          </div>
           <div className="nav-links">
             {[
               { label: 'MOTIVATION', href: '#motivation' },
@@ -984,6 +987,9 @@ export default function TritonForgePage() {
 [Router] JIT validation tests: 8 passed.`}</pre>
         </div>
         <div className="hero-content">
+          <div className="hero-logo-container mb-6">
+            <img src="/logo.png" alt="TritonForge emblem" className="hero-logo-img" />
+          </div>
           <div className="hero-eyebrow">OPENAI TRITON · GPU KERNEL ENGINEERING</div>
           <h1 className="hero-title">
             TritonForge
@@ -2137,7 +2143,10 @@ def fused_rmsnorm(x, weight, eps):
       {/* FOOTER */}
       <footer className="tf-footer">
         <div className="footer-inner">
-          <div className="footer-brand">TRITONFORGE</div>
+          <div className="footer-brand flex items-center gap-2 justify-center sm:justify-start">
+            <img src="/logo.png" alt="TritonForge Logo" className="footer-logo-img" />
+            <span>TRITONFORGE</span>
+          </div>
           <p className="footer-sub">
             Built by{' '}
             <a href="https://github.com/Gaurav711cgu" target="_blank" rel="noreferrer">Gaurav Kumar Nayak</a>
