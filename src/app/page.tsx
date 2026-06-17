@@ -893,6 +893,7 @@ export default function TritonForgePage() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [sliderIndex, setSliderIndex] = useState<number>(5);
   const [selectedGPU, setSelectedGPU] = useState<string>('A100');
+  const [activeManualTab, setActiveManualTab] = useState<'install' | 'api' | 'tune' | 'safety'>('install');
   const statsRef = useRef<HTMLDivElement>(null);
   const kernel = kernels.find(k => k.id === activeKernel)!;
 
@@ -927,20 +928,20 @@ export default function TritonForgePage() {
       {/* NAV */}
       <nav className="tf-nav">
         <div className="nav-inner">
-          <div className="nav-logo">⚡ TritonForge</div>
+          <div className="nav-logo">TRITONFORGE</div>
           <div className="nav-links">
             {[
-              { label: 'Motivation', href: '#motivation' },
-              { label: 'Kernels',    href: '#kernels' },
-              { label: 'Benchmarks', href: '#benchmarks' },
-              { label: 'Research',   href: '#research' },
-              { label: 'Blogs',      href: '#blogs' },
-              { label: 'Install',    href: '#install' },
+              { label: 'MOTIVATION', href: '#motivation' },
+              { label: 'KERNELS',    href: '#kernels' },
+              { label: 'BENCHMARKS', href: '#benchmarks' },
+              { label: 'RESEARCH',   href: '#research' },
+              { label: 'BLOGS',      href: '#blogs' },
+              { label: 'INSTALL',    href: '#install' },
             ].map(({ label, href }) => (
               <a key={label} href={href} className="nav-link">{label}</a>
             ))}
             <a href="https://github.com/Gaurav711cgu/TritonForge" target="_blank" rel="noreferrer" className="nav-cta">
-              GitHub ↗
+              GITHUB
             </a>
           </div>
         </div>
@@ -983,19 +984,19 @@ export default function TritonForgePage() {
 [Router] JIT validation tests: 8 passed.`}</pre>
         </div>
         <div className="hero-content">
-          <div className="hero-eyebrow">OpenAI Triton · GPU Kernel Engineering</div>
+          <div className="hero-eyebrow">OPENAI TRITON · GPU KERNEL ENGINEERING</div>
           <h1 className="hero-title">
-            TritonForge<span className="hero-accent">⚡</span>
+            TritonForge
           </h1>
           <p className="hero-sub">
             Fused GPU kernels that break the <span className="hero-highlight">memory wall</span>.<br />
             RMSNorm · SwiGLU · FlashAttention — up to <span className="hero-highlight">8.2× faster</span> than PyTorch.
           </p>
           <div className="hero-actions">
-            <a href="#playground" className="btn-primary">Run the benchmark →</a>
-            <a href="#research" className="btn-secondary">Read Papers</a>
+            <a href="#playground" className="btn-primary">RUN THE BENCHMARK</a>
+            <a href="#research" className="btn-secondary">READ PAPERS</a>
             <a href="https://github.com/Gaurav711cgu/TritonForge" target="_blank" rel="noreferrer" className="btn-ghost">
-              ★ {githubStars} Stars
+              STARS: {githubStars}
             </a>
           </div>
           <div className="hero-badges">
@@ -1008,10 +1009,10 @@ export default function TritonForgePage() {
 
       {/* STATS */}
       <section className="tf-stats" ref={statsRef}>
-        <StatCard label="RMSNorm Speedup" value={8.2} unit="×" started={statsVisible} isHighlight={true} />
+        <StatCard label="RMSNorm Speedup" value={8.2} unit="x" started={statsVisible} isHighlight={true} />
         <StatCard label="HBM Memory Saved (Attn N=2048)" value={99.2} unit="%" started={statsVisible} />
         <StatCard label="Peak BW Utilized" value={91} unit="%" started={statsVisible} />
-        <StatCard label="Correctness Tests" value={8} unit=" ✓" started={statsVisible} />
+        <StatCard label="Correctness Tests" value={8} unit=" PASSED" started={statsVisible} />
       </section>
 
       {/* MOTIVATION */}
@@ -1119,7 +1120,7 @@ export default function TritonForgePage() {
                 boxShadow: `0 8px 30px -15px ${memoryTiers[activePyramidTier].color}25`
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
-                  <span style={{ fontSize: '20px' }}>⚡</span>
+                  <span style={{ fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--color-violet)' }}>[SYS]</span>
                   <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--foreground)', margin: 0 }}>
                     {memoryTiers[activePyramidTier].name}
                   </h3>
@@ -1265,11 +1266,13 @@ export default function TritonForgePage() {
               style={{
                 background: "var(--bg-surface)",
                 border: "1px solid var(--border-subtle)",
-                borderRadius: "8px",
+                borderRadius: "4px",
                 color: "var(--foreground)",
                 padding: "8px 16px",
-                fontSize: "13px",
-                fontWeight: 500,
+                fontSize: "12px",
+                fontWeight: 700,
+                letterSpacing: "1px",
+                textTransform: "uppercase",
                 cursor: "pointer",
                 display: "flex",
                 alignItems: "center",
@@ -1277,28 +1280,29 @@ export default function TritonForgePage() {
                 transition: "all 0.2s ease"
               }}
             >
-              ◀ Prev
+              &lt; PREV
             </button>
 
             <button 
               onClick={() => setIsAutoPlaying(p => !p)}
               style={{
-                background: isAutoPlaying ? "rgba(244, 63, 94, 0.1)" : "rgba(16, 185, 129, 0.1)",
-                border: `1px solid ${isAutoPlaying ? "rgba(244, 63, 94, 0.3)" : "rgba(16, 185, 129, 0.3)"}`,
-                borderRadius: "8px",
-                color: isAutoPlaying ? "var(--color-rose)" : "var(--color-emerald)",
+                background: isAutoPlaying ? "rgba(229, 57, 53, 0.1)" : "rgba(76, 175, 80, 0.1)",
+                border: `1px solid ${isAutoPlaying ? "rgba(229, 57, 53, 0.3)" : "rgba(76, 175, 80, 0.3)"}`,
+                borderRadius: "4px",
+                color: isAutoPlaying ? "var(--color-violet)" : "var(--color-emerald)",
                 padding: "8px 20px",
-                fontSize: "13px",
-                fontWeight: 600,
+                fontSize: "12px",
+                fontWeight: 700,
+                letterSpacing: "1px",
+                textTransform: "uppercase",
                 cursor: "pointer",
                 display: "flex",
                 alignItems: "center",
                 gap: "8px",
-                transition: "all 0.2s ease",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.2)"
+                transition: "all 0.2s ease"
               }}
             >
-              {isAutoPlaying ? "⏸ Pause Autoplay" : "▶ Play Autoplay"}
+              {isAutoPlaying ? "PAUSE AUTOPLAY" : "PLAY AUTOPLAY"}
             </button>
 
             <button 
@@ -1309,11 +1313,13 @@ export default function TritonForgePage() {
               style={{
                 background: "var(--bg-surface)",
                 border: "1px solid var(--border-subtle)",
-                borderRadius: "8px",
+                borderRadius: "4px",
                 color: "var(--foreground)",
                 padding: "8px 16px",
-                fontSize: "13px",
-                fontWeight: 500,
+                fontSize: "12px",
+                fontWeight: 700,
+                letterSpacing: "1px",
+                textTransform: "uppercase",
                 cursor: "pointer",
                 display: "flex",
                 alignItems: "center",
@@ -1321,7 +1327,7 @@ export default function TritonForgePage() {
                 transition: "all 0.2s ease"
               }}
             >
-              Next ▶
+              NEXT &gt;
             </button>
           </div>
 
@@ -1370,7 +1376,7 @@ export default function TritonForgePage() {
                     alignItems: "center",
                     gap: "4px"
                   }}>
-                    ⏱️ {badge}
+                    [TIMING] {badge}
                   </span>
                 ))}
               </div>
@@ -1390,7 +1396,7 @@ export default function TritonForgePage() {
             <div style={{ background: "var(--bg-surface)", border: "1px solid var(--border-subtle)", borderRadius: "12px", padding: "24px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
               <div>
                 <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
-                  <span style={{ color: "var(--color-rose)", fontSize: "16px" }}>⚠️</span>
+                  <span style={{ color: "var(--color-rose)", fontSize: "11px", fontFamily: "var(--font-mono)" }}>[WARN]</span>
                   <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--color-rose)" }}>
                     Hardware Bottleneck (Vulnerability / Stall)
                   </span>
@@ -1405,7 +1411,7 @@ export default function TritonForgePage() {
 
               <div style={{ borderTop: "1px solid var(--border-subtle)", paddingTop: "20px", marginTop: "20px" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
-                  <span style={{ color: "var(--color-emerald)", fontSize: "16px" }}>🛡️</span>
+                  <span style={{ color: "var(--color-emerald)", fontSize: "11px", fontFamily: "var(--font-mono)" }}>[SAFE]</span>
                   <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--color-emerald)" }}>
                     TritonForge Compiler Safeguard
                   </span>
@@ -1443,8 +1449,73 @@ export default function TritonForgePage() {
               </div>
             </div>
             <p className="kd-desc">{kernel.description}</p>
+
+            {/* Fused Kernel Mathematical & Memory Architecture Compartment */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', marginTop: '20px', marginBottom: '20px' }}>
+              {/* Card 1: Math Parameters */}
+              <div className="math-breakdown-card">
+                <div className="card-lbl">Mathematical Parameters</div>
+                <div className="math-equation-box">
+                  {kernel.id === 'norm' && `RMSNorm(x) = [x / sqrt(mean(x^2) + eps)] * gamma`}
+                  {kernel.id === 'activation' && `SwiGLU(x) = silu(x_gate) * x_value`}
+                  {kernel.id === 'attention' && `O = softmax(QK^T / sqrt(d)) * V`}
+                </div>
+                <div className="math-params-list">
+                  {kernel.id === 'norm' && (
+                    <>
+                      <div className="math-param-row"><span>x</span> <span>Input activations of shape (M, d)</span></div>
+                      <div className="math-param-row"><span>d</span> <span>Hidden column dimension size</span></div>
+                      <div className="math-param-row"><span>eps</span> <span>Epsilon stability constant (1e-5)</span></div>
+                      <div className="math-param-row"><span>gamma</span> <span>Learned parameter scaling vector of shape (d)</span></div>
+                    </>
+                  )}
+                  {kernel.id === 'activation' && (
+                    <>
+                      <div className="math-param-row"><span>x</span> <span>Concatenated gate & value projections of shape (M, 2N)</span></div>
+                      <div className="math-param-row"><span>N</span> <span>Output column dimension size</span></div>
+                      <div className="math-param-row"><span>a (gate)</span> <span>First chunk tensor of shape (M, N) processed by SiLU</span></div>
+                      <div className="math-param-row"><span>b (val)</span> <span>Second chunk tensor of shape (M, N) multiplied element-wise</span></div>
+                    </>
+                  )}
+                  {kernel.id === 'attention' && (
+                    <>
+                      <div className="math-param-row"><span>Q, K, V</span> <span>Query, Key, and Value tensors of shape (B, H, N, d)</span></div>
+                      <div className="math-param-row"><span>d</span> <span>Head dimension scale factor</span></div>
+                      <div className="math-param-row"><span>m_i</span> <span>Running maximum statistics tracked for online softmax</span></div>
+                      <div className="math-param-row"><span>l_i</span> <span>Running denominator sum tracked for online softmax</span></div>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* Card 2: GPU Memory Caching Strategy */}
+              <div className="math-breakdown-card">
+                <div className="card-lbl">GPU Memory & Caching Strategy</div>
+                <div className="memory-profile-box">
+                  {kernel.id === 'norm' && (
+                    <>
+                      <div className="mem-step"><strong>PyTorch Eager:</strong> 3 HBM reads + 3 HBM writes. Intermediate variance sum & rsqrt are materialized to slow global memory.</div>
+                      <div className="mem-step"><strong>Triton Fused JIT:</strong> 1 HBM read + 1 HBM write. The row is loaded into SRAM once, variance reduction occurs inside registers, and output is written directly.</div>
+                    </>
+                  )}
+                  {kernel.id === 'activation' && (
+                    <>
+                      <div className="mem-step"><strong>PyTorch Eager:</strong> 3 HBM allocations. Allocates separate memory for chunk variables, computes SiLU gate, and performs multiplication.</div>
+                      <div className="mem-step"><strong>Triton Fused JIT:</strong> 0 intermediate allocations. Loads input projections into SRAM, computes SiLU & projection multiplication in registers, and writes directly.</div>
+                    </>
+                  )}
+                  {kernel.id === 'attention' && (
+                    <>
+                      <div className="mem-step"><strong>PyTorch Eager:</strong> Materializes the full N x N attention matrix in global HBM memory, causing O(N^2) storage and bandwidth bottleneck.</div>
+                      <div className="mem-step"><strong>Triton Fused JIT:</strong> Blocks Q, K, V into tiles of size 64. Tracks row-parallel softmax statistics in SRAM, scaling active tiles in registers. O(N) memory footprint.</div>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+
             <div className="kd-highlights">
-              {kernel.highlights.map(h => <div key={h} className="kd-highlight">✓ {h}</div>)}
+              {kernel.highlights.map(h => <div key={h} className="kd-highlight">[OK] {h}</div>)}
             </div>
             <div className="kd-fallback">
               <span className="fallback-label">Fallback:</span> {kernel.fallback}
@@ -1453,7 +1524,7 @@ export default function TritonForgePage() {
               {/* Left Panel: PyTorch Naive */}
               <div className="code-block" style={{ borderLeft: '3px solid var(--color-rose)' }}>
                 <div className="code-header" style={{ background: 'rgba(244, 63, 94, 0.03)' }}>
-                  <span style={{ color: 'var(--color-rose)', fontWeight: 600 }}>🔴 Naive PyTorch (Unfused)</span>
+                  <span style={{ color: 'var(--color-rose)', fontWeight: 600 }}>[PyTorch] Naive Eager (Unfused)</span>
                   <button 
                     onClick={() => {
                       navigator.clipboard.writeText(kernel.naiveCode);
@@ -1490,7 +1561,7 @@ export default function TritonForgePage() {
               {/* Right Panel: Triton Fused */}
               <div className="code-block" style={{ borderLeft: '3px solid var(--color-violet)' }}>
                 <div className="code-header" style={{ background: 'rgba(139, 92, 246, 0.03)' }}>
-                  <span style={{ color: 'var(--color-violet)', fontWeight: 600 }}>⚡ TritonForge Fused (JIT)</span>
+                  <span style={{ color: 'var(--color-violet)', fontWeight: 600 }}>[Triton] TritonForge Fused (JIT)</span>
                   <button 
                     onClick={() => {
                       navigator.clipboard.writeText(kernel.code);
@@ -1649,16 +1720,16 @@ export default function TritonForgePage() {
 
             return (
               <>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(6, 182, 212, 0.05)', border: '1px solid rgba(6, 182, 212, 0.15)', borderRadius: '8px', padding: '12px 18px', marginBottom: '32px', flexWrap: 'wrap', gap: '12px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(229, 57, 53, 0.05)', border: '1px solid rgba(229, 57, 53, 0.15)', borderRadius: '6px', padding: '12px 18px', marginBottom: '32px', flexWrap: 'wrap', gap: '12px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ color: 'var(--color-cyan)' }}>⚡</span>
+                    <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--color-violet)' }}>[JIT]</span>
                     <span style={{ fontSize: '13.5px', color: 'var(--foreground)' }}>
                       Compiler Estimation for <strong>{selectedGPU}</strong> at <strong>N={N}</strong>:
                     </span>
                   </div>
                   <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                     <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--color-slate-muted)' }}>
-                      95% Conf. Band: [{(baseNormSpeedup - 0.4).toFixed(1)}× - {(baseNormSpeedup + 0.5).toFixed(1)}×]
+                      95% Conf. Band: [{(baseNormSpeedup - 0.4).toFixed(1)}x - {(baseNormSpeedup + 0.5).toFixed(1)}x]
                     </span>
                     <button 
                       onClick={() => {
@@ -1666,17 +1737,17 @@ export default function TritonForgePage() {
                         alert('Copied custom benchmark URL to clipboard!');
                       }}
                       style={{
-                        background: 'rgba(6, 182, 212, 0.1)',
-                        border: '1px solid rgba(6, 182, 212, 0.2)',
+                        background: 'rgba(229, 57, 53, 0.1)',
+                        border: '1px solid rgba(229, 57, 53, 0.2)',
                         borderRadius: '4px',
-                        color: 'var(--color-cyan)',
+                        color: 'var(--color-violet)',
                         padding: '4px 10px',
                         fontSize: '11px',
                         cursor: 'pointer',
                         fontFamily: 'var(--font-mono)'
                       }}
                     >
-                      Share Results ↗
+                      SHARE RESULTS
                     </button>
                   </div>
                 </div>
@@ -1723,7 +1794,7 @@ export default function TritonForgePage() {
                             <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--color-slate-muted)' }}>{chart.math}</span>
                           </div>
                           <div style={{ textAlign: 'right' }}>
-                            <span style={{ fontSize: '18px', fontWeight: 800, color: chart.color }}>{chart.sp.toFixed(1)}×</span>
+                            <span style={{ fontSize: '18px', fontWeight: 800, color: chart.color }}>{chart.sp.toFixed(1)}x</span>
                             <div style={{ fontSize: '10px', color: 'var(--color-slate-muted)' }}>speedup win</div>
                           </div>
                         </div>
@@ -1782,7 +1853,7 @@ export default function TritonForgePage() {
           {/* Left Column: Papers */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
             <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--foreground)', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '12px', marginBottom: '8px', fontFamily: 'var(--font-heading)' }}>
-              🎓 Academic Papers
+              ACADEMIC PAPERS
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               {papers.map(p => <PaperSection key={p.id} paper={p} />)}
@@ -1792,7 +1863,7 @@ export default function TritonForgePage() {
           {/* Right Column: Blogs */}
           <div id="blogs" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
             <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--foreground)', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '12px', marginBottom: '8px', fontFamily: 'var(--font-heading)' }}>
-              ✍️ Engineering Blogs & Deep Dives
+              ENGINEERING BLOGS & DEEP DIVES
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               {blogs.map(b => <BlogSection key={b.id} blog={b} />)}
@@ -1825,58 +1896,58 @@ export default function TritonForgePage() {
               {[
                 [
                   'Development Velocity',
-                  '⚡ High (Python Block API)',
-                  '⚡ High (Standard Python)',
-                  '🔴 Low (Manual memory, warps, threads)',
-                  '◑ Medium (C++ template complexity)'
+                  'High (Python Block API)',
+                  'High (Standard Python)',
+                  'Low (Manual memory, warps, threads)',
+                  'Medium (C++ template complexity)'
                 ],
                 [
                   'Memory Efficiency',
-                  '🟢 Fused SRAM-resident execution',
-                  '🔴 Low (Unfused HBM read/write bottleneck)',
-                  '🟢 Fused shared-memory execution',
-                  '🟢 Optimized tiled buffers'
+                  'Fused SRAM-resident execution',
+                  'Low (Unfused HBM read/write bottleneck)',
+                  'Fused shared-memory execution',
+                  'Optimized tiled buffers'
                 ],
                 [
                   'Dynamic Autotuning',
-                  '🟢 Built-in configuration sweeping',
-                  '🔴 None',
-                  '🔴 Manual / requires external harness',
-                  '◑ Static configuration templates'
+                  'Built-in configuration sweeping',
+                  'None',
+                  'Manual / requires external harness',
+                  'Static configuration templates'
                 ],
                 [
                   'Safe CPU / Non-CUDA Fallback',
-                  '🟢 100% automated fallback routing',
-                  '🟢 Native CPU compatibility',
-                  '🔴 Driver-level crash on non-CUDA hosts',
-                  '🔴 Complex compilation / CUDA-only'
+                  '100% automated fallback routing',
+                  'Native CPU compatibility',
+                  'Driver-level crash on non-CUDA hosts',
+                  'Complex compilation / CUDA-only'
                 ],
                 [
                   'Fused Activation Support',
-                  '🟢 Yes (RMSNorm & SwiGLU)',
-                  '🔴 No (Separate eager launches)',
-                  '🟢 Yes (Requires custom C++ implementations)',
-                  '🔴 No (Attention-focused)'
+                  'Yes (RMSNorm & SwiGLU)',
+                  'No (Separate eager launches)',
+                  'Yes (Requires custom C++ implementations)',
+                  'No (Attention-focused)'
                 ],
                 [
                   'Tiled Attention',
-                  '🟢 O(N) tiled FlashAttention',
-                  '🔴 O(N²) memory allocation',
-                  '🟢 Yes (cuDNN or handwritten clusters)',
-                  '🟢 Yes (Tiled / Cutlass backends)'
+                  'Yes (O(N) tiled FlashAttention)',
+                  'No (O(N2) memory allocation)',
+                  'Yes (cuDNN or handwritten clusters)',
+                  'Yes (Tiled / Cutlass backends)'
                 ],
                 [
                   'Codebase Footprint',
-                  '🟢 Small (~100 lines Python)',
-                  '🟢 Minimal',
-                  '🔴 Massive (1000+ lines C++ boilerplate)',
-                  '🔴 Substantial template boilerplate'
+                  'Small (~100 lines Python)',
+                  'Minimal',
+                  'Massive (1000+ lines C++ boilerplate)',
+                  'Substantial template boilerplate'
                 ]
               ].map(([feat, triton, py, cuda, xf], i) => (
                 <tr key={i}>
                   <td style={{ fontWeight: 600 }}>{feat}</td>
-                  <td style={{ color: 'var(--color-emerald)' }}>{triton}</td>
-                  <td style={{ color: 'var(--color-rose)' }}>{py}</td>
+                  <td style={{ color: 'var(--color-violet)' }}>{triton}</td>
+                  <td>{py}</td>
                   <td>{cuda}</td>
                   <td>{xf}</td>
                 </tr>
@@ -1904,17 +1975,17 @@ export default function TritonForgePage() {
             </thead>
             <tbody>
               {[
-                ['No CUDA / No Triton', 'HAS_TRITON = False at import', 'PyTorch CPU eager', '⚠ High'],
-                ['CPU tensors passed', 'tensor.is_cuda == False', 'PyTorch CPU eager', '⚠ High'],
-                ['Unsupported head_dim', 'd ∉ {32, 64, 128, 256}', 'F.scaled_dot_product_attention', '◑ Medium'],
-                ['Column too large', 'd > 8192 (RMSNorm)', 'PyTorch eager normalization', '◑ Low'],
-                ['JIT compile error', 'Exception in kernel launch', 'Fallback + ERROR log', '◑ Medium'],
+                ['No CUDA / No Triton', 'HAS_TRITON = False at import', 'PyTorch CPU eager', 'High'],
+                ['CPU tensors passed', 'tensor.is_cuda == False', 'PyTorch CPU eager', 'High'],
+                ['Unsupported head_dim', 'd not in {32, 64, 128, 256}', 'F.scaled_dot_product_attention', 'Medium'],
+                ['Column too large', 'd > 8192 (RMSNorm)', 'PyTorch eager normalization', 'Low'],
+                ['JIT compile error', 'Exception in kernel launch', 'Fallback + ERROR log', 'Medium'],
               ].map(([s, t, f, c], i) => (
                 <tr key={i}>
                   <td>{s}</td>
                   <td><code>{t}</code></td>
                   <td>{f}</td>
-                  <td className={c.startsWith('⚠') ? 'cost-high' : 'cost-med'}>{c}</td>
+                  <td className={c === 'High' ? 'cost-high' : 'cost-med'}>{c}</td>
                 </tr>
               ))}
             </tbody>
@@ -1922,46 +1993,143 @@ export default function TritonForgePage() {
         </div>
       </section>
 
-      {/* INSTALL */}
+      {/* DEVELOPER MANUAL & INTEGRATION GUIDE */}
       <section className="tf-section tf-dark" id="install">
         <div className="section-header">
-          <div className="section-eyebrow">Get Started</div>
-          <h2 className="section-title">Two-minute setup</h2>
+          <div className="section-eyebrow">Developer Manual</div>
+          <h2 className="section-title">Integration & Hardware manual</h2>
+          <p className="section-sub">
+            Complete technical instructions for deploying, autotuning, and validating TritonForge kernels in production.
+          </p>
         </div>
-        <div className="install-grid">
-          <div className="install-card">
-            <div className="install-label">CPU / Local Dev (macOS, Linux)</div>
-            <div className="code-block">
-              <pre className="code-pre">{`git clone https://github.com/Gaurav711cgu/TritonForge
+
+        <div className="manual-container">
+          <div className="manual-tabs">
+            {[
+              { id: 'install', label: '1. Setup & CLI' },
+              { id: 'api',     label: '2. PyTorch API' },
+              { id: 'tune',    label: '3. Autotuning' },
+              { id: 'safety',  label: '4. Safety & Fallback' }
+            ].map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveManualTab(tab.id as any)}
+                className={`manual-tab-btn ${activeManualTab === tab.id ? 'active' : ''}`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="manual-content-panel">
+            {activeManualTab === 'install' && (
+              <div className="manual-grid">
+                <div className="manual-card">
+                  <h4 className="manual-card-title">CPU / Local Development</h4>
+                  <p className="manual-card-desc">For offline code editing and syntax validation on hosts without a CUDA GPU (e.g., Apple Silicon macOS).</p>
+                  <pre className="code-pre">
+{`git clone https://github.com/Gaurav711cgu/TritonForge
 cd TritonForge
 pip install torch numpy matplotlib pandas pytest
-pytest tritonforge/tests/test_correctness.py -v`}</pre>
-            </div>
-          </div>
-          <div className="install-card">
-            <div className="install-label">GPU (CUDA 12.1+, A100/H100/RTX 30xx+)</div>
-            <div className="code-block">
-              <pre className="code-pre">{`pip install torch triton numpy matplotlib pandas
+pytest tritonforge/tests/test_correctness.py -v`}
+                  </pre>
+                </div>
+                <div className="manual-card">
+                  <h4 className="manual-card-title">GPU / Production Execution</h4>
+                  <p className="manual-card-desc">Requires CUDA 12.1+ and compatible Ampere/Hopper/Ada Lovelace GPU (RTX 30xx/40xx, A100, H100).</p>
+                  <pre className="code-pre">
+{`pip install torch triton numpy matplotlib pandas
 pytest tritonforge/tests/test_correctness.py -v
-python tritonforge/tests/test_performance.py`}</pre>
-            </div>
-          </div>
-          <div className="install-card install-card-full">
-            <div className="install-label">Drop-in usage in your training loop</div>
-            <div className="code-block">
-              <pre className="code-pre">{`from tritonforge.kernels.norm       import fused_rmsnorm
+python tritonforge/tests/test_performance.py`}
+                  </pre>
+                </div>
+              </div>
+            )}
+
+            {activeManualTab === 'api' && (
+              <div className="manual-card manual-card-full">
+                <h4 className="manual-card-title">PyTorch Drop-in Modules</h4>
+                <p className="manual-card-desc">Replace default torch layers with memory-fused versions. Forward and backward calculations are fully handled.</p>
+                <pre className="code-pre">
+{`import torch
+import torch.nn as nn
+from tritonforge.kernels.norm       import fused_rmsnorm
 from tritonforge.kernels.activation import fused_swiglu
 from tritonforge.kernels.attention  import fused_attention
 
-# Fused RMSNorm — replaces nn.LayerNorm
-normed = fused_rmsnorm(x, weight)                    # (M, N) → (M, N)
+class TritonFFN(nn.Module):
+    def __init__(self, d_model, d_ffn):
+        super().__init__()
+        self.w_gate = nn.Parameter(torch.randn(d_model, d_ffn))
+        self.w_val  = nn.Parameter(torch.randn(d_model, d_ffn))
+        self.scale  = nn.Parameter(torch.ones(d_model))
+        
+    def forward(self, x):
+        # 1. Apply Fused RMSNorm -> shape (B, S, d_model)
+        normed = fused_rmsnorm(x, self.scale, eps=1e-5)
+        
+        # 2. Gated activation expects concatenated input (B, S, 2 * d_ffn)
+        gate_proj = torch.matmul(normed, self.w_gate)
+        val_proj  = torch.matmul(normed, self.w_val)
+        ffn_input = torch.cat([gate_proj, val_proj], dim=-1)
+        
+        # 3. Apply Fused SwiGLU -> shape (B, S, d_ffn)
+        return fused_swiglu(ffn_input)`}
+                </pre>
+              </div>
+            )}
 
-# Fused SwiGLU — LLaMA/Mistral FFN activation
-activated = fused_swiglu(ffn_proj)                   # (M, 2N) → (M, N)
+            {activeManualTab === 'tune' && (
+              <div className="manual-grid">
+                <div className="manual-card">
+                  <h4 className="manual-card-title">Block Sizing & Warp Occupancy</h4>
+                  <p className="manual-card-desc">Triton divides execution dimensions into 1D/2D block tiles. Standard GPU execution requires alignment with warp sizes (32 threads).</p>
+                  <ul className="manual-list">
+                    <li><strong>BLOCK_SIZE</strong>: Swept across {`{128, 256, 512, 1024}`} at runtime to balance registers and thread occupancy.</li>
+                    <li><strong>Warp Count</strong>: Hardcoded dynamically between 4 and 8 warps to prevent hardware bank serialization.</li>
+                    <li><strong>Register Pressure</strong>: Auto-tuned block bounds prevent compiling past 255 registers per thread.</li>
+                  </ul>
+                </div>
+                <div className="manual-card">
+                  <h4 className="manual-card-title">Performance Autotuning Config</h4>
+                  <p className="manual-card-desc">The autotune decorator runs configurations on first execution, caching the fastest configuration for subsequent passes.</p>
+                  <pre className="code-pre">
+{`@triton.autotune(
+    configs=[
+        triton.Config({'BLOCK_SIZE': 256}, num_warps=4),
+        triton.Config({'BLOCK_SIZE': 512}, num_warps=8)
+    ],
+    key=['N_cols']
+)`}
+                  </pre>
+                </div>
+              </div>
+            )}
 
-# Tiled FlashAttention — O(N) memory
-out = fused_attention(q, k, v)                       # (B,H,N,d) → (B,H,N,d)`}</pre>
-            </div>
+            {activeManualTab === 'safety' && (
+              <div className="manual-grid">
+                <div className="manual-card">
+                  <h4 className="manual-card-title">Correctness Tolerances</h4>
+                  <p className="manual-card-desc">Numerical accuracy tests verify Triton output against PyTorch float32 references across edge dimensions.</p>
+                  <ul className="manual-list">
+                    <li><strong>FP32 Tolerance</strong>: absolute tolerance (atol) = 1e-5, relative tolerance (rtol) = 1e-5.</li>
+                    <li><strong>FP16 Tolerance</strong>: absolute tolerance (atol) = 1e-4, relative tolerance (rtol) = 1e-4.</li>
+                    <li><strong>Shape Boundary Guard</strong>: Inputs exceeding size boundaries (e.g., hidden dimension width &gt; 8192) trigger standard PyTorch fallbacks.</li>
+                  </ul>
+                </div>
+                <div className="manual-card">
+                  <h4 className="manual-card-title">Zero-Crash Dynamic Routing</h4>
+                  <p className="manual-card-desc">TritonForge decorates JIT launches with environment checks, preventing execution crashes on non-compatible hardware.</p>
+                  <pre className="code-pre">
+{`@triton_route(fallback_fn=pytorch_rmsnorm)
+def fused_rmsnorm(x, weight, eps):
+    # If no CUDA device is found, automatically
+    # routes input parameters to eager PyTorch.
+    ...`}
+                  </pre>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -1969,7 +2137,7 @@ out = fused_attention(q, k, v)                       # (B,H,N,d) → (B,H,N,d)`}
       {/* FOOTER */}
       <footer className="tf-footer">
         <div className="footer-inner">
-          <div className="footer-brand">⚡ TritonForge</div>
+          <div className="footer-brand">TRITONFORGE</div>
           <p className="footer-sub">
             Built by{' '}
             <a href="https://github.com/Gaurav711cgu" target="_blank" rel="noreferrer">Gaurav Kumar Nayak</a>
