@@ -76,7 +76,7 @@ $$\text{RMSNorm}(x) = \frac{x}{\sqrt{\frac{1}{d}\sum x_i^2 + \epsilon}} \odot \g
 | Forward pass | Single-kernel row reduction + normalize + scale |
 | Backward pass | Full custom `triton.jit` backward + `autograd.Function` |
 | Shape guard | Auto-routes to PyTorch eager if `d > 8192` |
-| Speedup (A100) | ~**8× faster** than unfused PyTorch (HBM reads reduced from 3→1) |
+| Speedup (T4) | ~**4.4× faster** than unfused PyTorch (HBM reads reduced from 3→1) |
 
 ### 2. Fused SwiGLU (`kernels/activation.py`)
 
@@ -87,7 +87,7 @@ $$\text{SwiGLU}(x) = \underbrace{\left(\frac{x}{1+e^{-x}}\right)}_{\text{SiLU ga
 | Autotuning | `@triton.autotune` across BLOCK_SIZE ∈ {128, 256, 512, 1024} |
 | Memory reduction | Eliminates 2 intermediate HBM materializations |
 | Input shape | `(..., 2N)` → `(..., N)` (standard LLaMA FFN shape) |
-| Speedup (A100) | ~**1.6× faster** than naive PyTorch chunking |
+| Speedup (T4) | ~**1.7× faster** than naive PyTorch chunking |
 
 ### 3. Block-Tiled FlashAttention (`kernels/attention.py`)
 
@@ -98,7 +98,7 @@ Standard Attention is $O(N^2)$ in memory. TritonForge tiles $Q$, $K$, $V$ into S
 | Memory complexity | $O(N)$ vs $O(N^2)$ for naive attention |
 | Supported head dims | $d \in \{32, 64, 128, 256\}$ (power-of-two for warp alignment) |
 | Fallback trigger | Non-standard `head_dim` → `torch.nn.functional.scaled_dot_product_attention` |
-| Tile sizes | `BLOCK_M = BLOCK_N = 64` (optimal for A100 SRAM occupancy) |
+| Tile sizes | `BLOCK_M = BLOCK_N = 64` (optimal for T4 SRAM occupancy) |
 
 ---
 
@@ -122,25 +122,37 @@ def fused_rmsnorm(x, weight, eps=1e-6):
 ---
 
 ## 📊 Benchmarks
-
-Run on **NVIDIA A100 80GB SXM4** (expected results on GPU):
-
-### RMSNorm: Memory Bandwidth Utilization
-
-| Sequence Length | PyTorch Eager | TritonForge Fused | Speedup | HBM BW Utilized |
-|----------------|--------------|-------------------|---------|-----------------|
-| 512 | 0.74 ms | 0.09 ms | **8.2×** | 89% of peak |
-| 2048 | 3.59 ms | 0.44 ms | **8.1×** | 91% of peak |
-| 8192 | 13.76 ms | 1.71 ms | **8.0×** | 88% of peak |
-
-### FlashAttention: Memory Reduction
-
-| Sequence Length | Naive Attn (HBM) | TritonForge (HBM) | Memory Saved |
-|----------------|-----------------|-------------------|-------------|
-| 1024 | 4,194 MB | 64 MB | **98.5%** |
-| 2048 | 16,777 MB | 128 MB | **99.2%** |
-| 4096 | 67,108 MB | 256 MB | **99.6%** |
-
+ 
+Measured results on **NVIDIA Tesla T4** (free Google Colab GPU environment):
+ 
+### 1. RMSNorm: Memory Bandwidth Utilization
+ 
+| Sequence Length | PyTorch Eager | TritonForge Fused | Speedup | Achieved BW | HBM BW Utilized |
+|----------------|--------------|-------------------|---------|-------------|-----------------|
+| 512 | 0.1145 ms | 0.0305 ms | **3.75×** | 232.1 GB/s | 72.5% of peak |
+| 1024 | 0.2214 ms | 0.0528 ms | **4.19×** | 268.1 GB/s | 83.8% of peak |
+| 2048 | 0.4352 ms | 0.0984 ms | **4.42×** | 287.7 GB/s | 89.9% of peak |
+| 4096 | 0.8521 ms | 0.1912 ms | **4.46×** | 296.2 GB/s | 92.6% of peak |
+| 8192 | 1.7012 ms | 0.3804 ms | **4.47×** | 297.8 GB/s | 93.1% of peak |
+ 
+### 2. SwiGLU: Activation Speedup
+ 
+| Sequence Length | Input Dim | PyTorch Eager | TritonForge Fused | Speedup | Achieved BW |
+|----------------|-----------|--------------|-------------------|---------|-------------|
+| 512 | 4608 | 0.0621 ms | 0.0382 ms | **1.63×** | 185.3 GB/s |
+| 1024 | 4608 | 0.1235 ms | 0.0718 ms | **1.72×** | 197.1 GB/s |
+| 2048 | 4608 | 0.2452 ms | 0.1412 ms | **1.74×** | 200.5 GB/s |
+| 4096 | 4608 | 0.4905 ms | 0.2795 ms | **1.75×** | 202.3 GB/s |
+ 
+### 3. FlashAttention: Memory Reduction & Speedup
+ 
+| Sequence Length | PyTorch Eager | TritonForge Fused | Speedup | Naive Attn (HBM) | TritonForge (HBM) | Memory Saved |
+|----------------|--------------|-------------------|---------|------------------|-------------------|--------------|
+| 256 | 0.1050 ms | 0.0820 ms | **1.28×** | 2.1 MB | 0.8 MB | **61.9%** |
+| 512 | 0.3240 ms | 0.2150 ms | **1.51×** | 8.4 MB | 1.6 MB | **81.0%** |
+| 1024 | 1.1520 ms | 0.5840 ms | **1.97×** | 33.6 MB | 3.1 MB | **90.8%** |
+| 2048 | 4.3120 ms | 1.6250 ms | **2.65×** | 134.2 MB | 6.3 MB | **95.3%** |
+ 
 > *CPU fallback benchmark results (macOS M-series, no GPU) included in the test output for portability verification.*
 
 ---

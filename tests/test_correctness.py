@@ -5,6 +5,7 @@ from tritonforge.core.router import is_cuda_available
 from tritonforge.kernels.norm import fused_rmsnorm, pytorch_rmsnorm
 from tritonforge.kernels.activation import fused_swiglu, pytorch_swiglu
 from tritonforge.kernels.attention import fused_attention, pytorch_flash_attention
+from tritonforge.kernels.fused_norm_linear import FusedRMSNormLinear
 
 def get_test_device() -> str:
     return "cuda" if is_cuda_available() else "cpu"
@@ -99,3 +100,25 @@ def test_attention_correctness(batch_heads_seq_dim):
     # Note: Attention calculations can accumulate slight numeric differences 
     # due to local online softmax tiling updates. We verify with appropriate bounds.
     torch.testing.assert_close(out_fused, out_ref, atol=1e-4, rtol=1e-4)
+
+@pytest.mark.parametrize("shape", [(2, 64, 128), (1, 128, 256)])
+def test_fused_rmsnorm_linear_correctness(shape):
+    """Verifies FusedRMSNormLinear matches unfused sequential execution."""
+    device = get_test_device()
+    B, S, D = shape
+    out_features = D * 2
+    
+    x = torch.randn((B, S, D), dtype=torch.float32, device=device)
+    
+    # Initialize fused module
+    fused_mod = FusedRMSNormLinear(d_model=D, out_features=out_features).to(device)
+    
+    # Forward pass
+    out_fused = fused_mod(x)
+    
+    # Reference sequential pass
+    x_normed = fused_rmsnorm(x, fused_mod.norm_weight, fused_mod.eps)
+    out_ref = fused_mod.linear(x_normed)
+    
+    torch.testing.assert_close(out_fused, out_ref, atol=1e-5, rtol=1e-5)
+    assert fused_mod.hbm_bytes_saved_per_forward == 2 * D * 2
