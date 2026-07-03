@@ -6,6 +6,8 @@ Upgraded to production-grade:
   2. Memory-efficient Fused Backward: Bypasses PyTorch autograd graph tracking by manually
      computing dW/dX gradients using cuBLAS matmul and Triton _rmsnorm_bwd_kernel directly.
   3. Dynamic Autotuning: Sweeps block sizing and stages to avoid register pressure limits.
+  4. Fast-Path / Slow-Path Tiling: Uses IS_ALIGNED tl.constexpr compile-time branching to eliminate
+     mask instructions when dimensions are aligned with block boundaries.
 """
 import torch
 import torch.nn as nn
@@ -44,6 +46,7 @@ if HAS_TRITON:
         BLOCK_M: tl.constexpr,
         BLOCK_N: tl.constexpr,
         BLOCK_K: tl.constexpr,
+        IS_ALIGNED: tl.constexpr,
     ):
         pid_m = tl.program_id(0)
         pid_n = tl.program_id(1)
@@ -56,8 +59,13 @@ if HAS_TRITON:
         for k_start in range(0, K, BLOCK_K):
             off_k = k_start + tl.arange(0, BLOCK_K)
             x_ptr = X_ptr + off_m[:, None] * stride_xm + off_k[None, :] * stride_xk
-            mask_x = (off_m[:, None] < M) & (off_k[None, :] < K)
-            x_val = tl.load(x_ptr, mask=mask_x, other=0.0).to(tl.float32)
+            
+            if IS_ALIGNED:
+                x_val = tl.load(x_ptr).to(tl.float32)
+            else:
+                mask_x = (off_m[:, None] < M) & (off_k[None, :] < K)
+                x_val = tl.load(x_ptr, mask=mask_x, other=0.0).to(tl.float32)
+                
             sum_sq += tl.sum(x_val * x_val, axis=1)
             
         rsqrt = 1.0 / tl.sqrt(sum_sq / K + eps)  # size [BLOCK_M]
@@ -67,29 +75,34 @@ if HAS_TRITON:
         
         for k_start in range(0, K, BLOCK_K):
             off_k = k_start + tl.arange(0, BLOCK_K)
-            
-            # Load X block
             x_ptr = X_ptr + off_m[:, None] * stride_xm + off_k[None, :] * stride_xk
-            mask_x = (off_m[:, None] < M) & (off_k[None, :] < K)
-            x_val = tl.load(x_ptr, mask=mask_x, other=0.0)
             
-            # Load norm weight
-            norm_w_val = tl.load(norm_w_ptr + off_k, mask=off_k < K, other=0.0)
-            
-            # Normalize X block in registers
-            x_norm = x_val * rsqrt[:, None] * norm_w_val[None, :]
-            
-            # Load W block (W is [N, K], so block is [BLOCK_N, BLOCK_K])
-            w_ptr = W_ptr + off_n[:, None] * stride_wn + off_k[None, :] * stride_wk
-            mask_w = (off_n[:, None] < N) & (off_k[None, :] < K)
-            w_val = tl.load(w_ptr, mask=mask_w, other=0.0)
-            
-            # Compute block GEMM
+            if IS_ALIGNED:
+                x_val = tl.load(x_ptr)
+                norm_w_val = tl.load(norm_w_ptr + off_k)
+                x_norm = x_val * rsqrt[:, None] * norm_w_val[None, :]
+                
+                w_ptr = W_ptr + off_n[:, None] * stride_wn + off_k[None, :] * stride_wk
+                w_val = tl.load(w_ptr)
+            else:
+                mask_x = (off_m[:, None] < M) & (off_k[None, :] < K)
+                x_val = tl.load(x_ptr, mask=mask_x, other=0.0)
+                norm_w_val = tl.load(norm_w_ptr + off_k, mask=off_k < K, other=0.0)
+                x_norm = x_val * rsqrt[:, None] * norm_w_val[None, :]
+                
+                w_ptr = W_ptr + off_n[:, None] * stride_wn + off_k[None, :] * stride_wk
+                mask_w = (off_n[:, None] < N) & (off_k[None, :] < K)
+                w_val = tl.load(w_ptr, mask=mask_w, other=0.0)
+                
             accumulator += tl.dot(x_norm, tl.trans(w_val))
             
         y_ptr = Y_ptr + off_m[:, None] * stride_ym + off_n[None, :] * stride_yn
-        mask_y = (off_m[:, None] < M) & (off_n[None, :] < N)
-        tl.store(y_ptr, accumulator.to(tl.float16), mask=mask_y)
+        
+        if IS_ALIGNED:
+            tl.store(y_ptr, accumulator.to(tl.float16))
+        else:
+            mask_y = (off_m[:, None] < M) & (off_n[None, :] < N)
+            tl.store(y_ptr, accumulator.to(tl.float16), mask=mask_y)
 
     # --- GEMV Kernel (Optimized for M = 1 vector generation) ---
     @triton.jit
@@ -176,8 +189,10 @@ if HAS_TRITON:
                     BLOCK_K=BLOCK_K
                 )
             else:
-                # Launch autotuned GEMM path
-                # Autotuning handles grid configurations automatically
+                # Check compile-time shape alignment
+                # Aligned if divisible by maximum autotuner bounds (BLOCK_M=32, BLOCK_N=128, BLOCK_K=64)
+                is_aligned = (M % 32 == 0) and (K % 64 == 0) and (N % 128 == 0)
+                
                 grid = lambda meta: (
                     triton.cdiv(M, meta['BLOCK_M']),
                     triton.cdiv(N, meta['BLOCK_N'])
@@ -188,7 +203,8 @@ if HAS_TRITON:
                     W.stride(0), W.stride(1),
                     Y.stride(0), Y.stride(1),
                     M, N, K,
-                    eps
+                    eps,
+                    IS_ALIGNED=is_aligned
                 )
             
             ctx.save_for_backward(x, norm_weight, W)
@@ -206,7 +222,7 @@ if HAS_TRITON:
             x_normed = x * rsqrt * norm_weight
             
             # Compute gradients:
-            # 1. dW = dy.T @ x_normed (Uses standard contiguous PyTorch matrix mult)
+            # 1. dW = dy.T @ x_normed
             dW = torch.matmul(dy.t(), x_normed)
             
             # 2. dx_normed = dy @ W
