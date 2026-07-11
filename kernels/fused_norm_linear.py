@@ -24,6 +24,8 @@ except ImportError:
 # TRITON FUSED NORM + LINEAR KERNELS
 # =====================================================================
 
+from tritonforge.core.autotune import cache_manager
+
 if HAS_TRITON:
     # --- GEMM Kernel (For M > 1) ---
     @triton.autotune(
@@ -154,6 +156,10 @@ if HAS_TRITON:
             
         y_ptr = Y_ptr + pid_n * stride_yn
         tl.store(y_ptr, accumulator.to(tl.float16))
+
+    # Register kernel with the global cache manager
+    cache_manager.register_kernel("_rmsnorm_linear_gemm_kernel", _rmsnorm_linear_gemm_kernel)
+
 else:
     _rmsnorm_linear_gemm_kernel = None
     _rmsnorm_linear_gemv_kernel = None
@@ -256,17 +262,20 @@ else:
 # PUBLIC INTERFACE & MODULE
 # =====================================================================
 
+def pytorch_fused_rmsnorm_linear(x: torch.Tensor, norm_weight: torch.Tensor, W: torch.Tensor, eps: float = 1e-6) -> torch.Tensor:
+    """Fallback path for fused_rmsnorm_linear."""
+    variance = x.pow(2).mean(-1, keepdim=True)
+    x_normed = x * torch.rsqrt(variance + eps) * norm_weight
+    return x_normed @ W.t()
+
+from tritonforge.core.router import triton_route
+
+@triton_route(fallback_fn=pytorch_fused_rmsnorm_linear)
 def fused_rmsnorm_linear(x: torch.Tensor, norm_weight: torch.Tensor, W: torch.Tensor, eps: float = 1e-6) -> torch.Tensor:
     """
     Fused RMSNorm + Linear (QKV Projection) forward pass.
-    Automatically handles CPU/GPU fallback.
+    Automatically handles CPU/GPU fallback via triton_route.
     """
-    if not HAS_TRITON or not x.is_cuda:
-        # Fallback path
-        variance = x.pow(2).mean(-1, keepdim=True)
-        x_normed = x * torch.rsqrt(variance + eps) * norm_weight
-        return x_normed @ W.t()
-        
     orig_shape = x.shape
     if len(orig_shape) > 2:
         x_2d = x.view(-1, orig_shape[-1]).contiguous()

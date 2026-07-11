@@ -162,43 +162,8 @@ def load_tuning_cache(cache_path="triton_tune_cache.json"):
 
     Call this once at server startup before any forward passes.
     """
-    try:
-        from tritonforge.kernels.fused_norm_linear import _rmsnorm_linear_gemm_kernel
-    except ImportError:
-        print("[TuneCache] Triton not available. Skipping cache load.")
-        return
-
-    try:
-        with open(cache_path, "r") as f:
-            cache = json.load(f)
-    except FileNotFoundError:
-        print(f"[TuneCache] No cache found at '{cache_path}'. "
-              f"Run `python -m tritonforge.kernels.tune_cache` to generate one.")
-        return
-
-    pinned = 0
-    for shape_key, cfg in cache.items():
-        if cfg.get("path") == "gemv":
-            continue
-        M, N, K = map(int, shape_key.split(","))
-        key = (M, N, K)
-        # Pin the kernel's autotune to the pre-computed best config
-        _rmsnorm_linear_gemm_kernel.cache[key] = triton.Config(
-            kwargs={
-                "BLOCK_M":    cfg["BLOCK_M"],
-                "BLOCK_N":    cfg["BLOCK_N"],
-                "BLOCK_K":    cfg["BLOCK_K"],
-                "IS_ALIGNED": (M % cfg["BLOCK_M"] == 0 and
-                               K % cfg["BLOCK_K"] == 0 and
-                               N % cfg["BLOCK_N"] == 0),
-            },
-            num_warps=cfg["num_warps"],
-            num_stages=cfg["num_stages"],
-        )
-        pinned += 1
-
-    print(f"[TuneCache] Loaded {pinned} pre-tuned configs from '{cache_path}'. "
-          f"Cold-start compilation eliminated.")
+    from tritonforge.core.autotune import cache_manager
+    cache_manager.load_cache(cache_path)
 
 
 if __name__ == "__main__":

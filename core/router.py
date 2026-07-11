@@ -61,7 +61,21 @@ def triton_route(fallback_fn: Callable[..., Any], shape_validator: Optional[Call
             
             # 4. Success: Execute optimized Triton path
             try:
-                return triton_fn(*args, **kwargs)
+                result = triton_fn(*args, **kwargs)
+                
+                # --- Numerical Stability Telemetry (NaN/Inf tracking) ---
+                import os
+                if os.environ.get("TRITONFORGE_TELEMETRY", "1") == "1":
+                    if isinstance(result, torch.Tensor):
+                        if torch.isnan(result).any() or torch.isinf(result).any():
+                            logger.error(f"Numerical Instability Detected (NaN/Inf) in output of {triton_fn.__name__}")
+                    elif isinstance(result, (tuple, list)):
+                        for i, res in enumerate(result):
+                            if isinstance(res, torch.Tensor) and (torch.isnan(res).any() or torch.isinf(res).any()):
+                                logger.error(f"Numerical Instability Detected (NaN/Inf) in output [{i}] of {triton_fn.__name__}")
+                # --------------------------------------------------------
+                
+                return result
             except Exception as e:
                 logger.error(f"Error during Triton kernel execution: {e}. Attempting recovery via fallback.")
                 return fallback_fn(*args, **kwargs)
