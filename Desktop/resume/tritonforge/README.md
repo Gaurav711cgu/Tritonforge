@@ -12,7 +12,7 @@ By restructuring memory load/store sequences and optimizing register allocation,
 
 ---
 
-## 🏗️ Hardware Memory Hierarchy & Fusion Architecture
+## Hardware Memory Hierarchy & Fusion Architecture
 
 ```mermaid
 graph TD
@@ -32,7 +32,7 @@ graph TD
 
 ---
 
-## 📊 Measured Performance Metrics (Physical NVIDIA Tesla T4 GPU)
+## Measured Performance Metrics (Physical NVIDIA Tesla T4 GPU)
 
 *Evaluated on NVIDIA Tesla T4 (Peak HBM Bandwidth: 320 GB/s, CUDA 12.1, PyTorch 2.1.0)*
 
@@ -73,7 +73,7 @@ graph TD
 
 ---
 
-## ⚡ Core Operator Implementations
+## Core Operator Implementations
 
 ### 1. Fused RMSNorm + Linear (QKV Projection)
 - **Source**: `tritonforge/kernels/fused_norm_linear.py`
@@ -90,7 +90,7 @@ graph TD
 
 ---
 
-## 🧪 Unit Testing & Verification
+## Unit Testing & Verification
 
 Automated unit tests compare Triton kernel outputs against PyTorch reference implementations within a $10^{-5}$ floating-point tolerance:
 
@@ -100,5 +100,5 @@ pytest tritonforge/tests -v
 
 ---
 
-## 📜 License
+## License
 This project is licensed under the MIT License.
