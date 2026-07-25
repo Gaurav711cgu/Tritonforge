@@ -151,10 +151,11 @@ Highly analytical \textbf{Generative AI Engineer} \& \textbf{Machine Learning En
           \resumeItemListEnd
 
       \resumeProjectHeading
-          {\textbf{\href{https://huggingface.co/spaces/Gaurav711/Artha_ai}{Artha AI}} $|$ \small\textit{FinTech \& MLOps Developer} $|$ \small\textit{Remote} ~ \href{https://github.com/Gaurav711cgu/Aarthaa_ai}{\faGithub}}{May 2026 - Present}
+          {\textbf{\href{https://huggingface.co/spaces/Gaurav711/Artha_ai}{Artha AI}} $|$ \small\textit{FinTech Risk \& Compliance Systems Developer} $|$ \small\textit{Remote} ~ \href{https://github.com/Gaurav711cgu/Aarthaa_ai}{\faGithub}}{May 2026 - Present}
           \resumeItemListStart
-            \resumeItem{Engineered a 3-module FinTech platform with FraudSense (XGBoost/SHAP fraud pipeline yielding 93.1\% precision, 88.4\% recall) and RegGuard (LLaMA-3.1-70B RAG regulatory agent) with pgvector/HyDE, achieving 85.3\% citation accuracy.}
-            \resumeItem{Developed FinLens (SQL-augmented agent) querying structured ledger databases to eliminate numeric hallucinations, and integrated Evidently AI drift sweeps, Prometheus metrics, and JWT key rotation.}
+            \resumeItem{Detected payment fraud with \textbf{0.914 AUC-ROC}, \textbf{61.7\% Recall}, and \textbf{34.6\% Precision} ($F1=0.444$) on 118K temporal holdout by ensembling LightGBM + GraphSAGE (+0.02 AUC over LGBM-only); calibrated to 8:1 business cost ratio of missed fraud vs. false positives.}
+            \resumeItem{Engineered a 150+ doc compliance RAG pipeline (RBI/SEBI/NPCI/FEMA) with hybrid TF-IDF + dense retrieval (ChromaDB + pgvector + LLaMA-3.1-70B), achieving \textbf{95.0\% top-3 accuracy} on a 500-query eval (+8.2\% over dense-only) with confidence gating.}
+            \resumeItem{Extracted SHAP feature attributions showing 24h card velocity is 3x more predictive than raw transaction amount; deployed Evidently AI drift sweeps, Prometheus metrics, and JWT key rotation.}
           \resumeItemListEnd
 
       \resumeProjectHeading
