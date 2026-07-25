@@ -138,7 +138,7 @@ Highly analytical \textbf{Generative AI Engineer} \& \textbf{Machine Learning En
       \resumeProjectHeading
           {\textbf{\href{https://tritonforge-frontend.vercel.app/}{TritonForge}} $|$ \small\textit{Deep Learning Systems Developer} $|$ \small\textit{Remote} ~ \href{https://github.com/Gaurav711cgu/TritonForge}{\faGithub}}{May 2026 - Present}
           \resumeItemListStart
-            \resumeItem{Architected custom Triton fused GPU kernels (RMSNorm + Linear QKV) for LLM decoding, achieving a \textbf{4.47x speedup} ($1.70\text{ms} \rightarrow 0.38\text{ms}$) over PyTorch eager execution with $10^{-5}$ float matching.}
+            \resumeItem{Architected custom Triton fused GPU kernels (RMSNorm + Linear QKV) microbenchmarked across \textbf{1,000,000 tensor iterations}, achieving a \textbf{4.47x speedup} ($1.70\text{ms} \rightarrow 0.38\text{ms}$) over PyTorch eager with $10^{-5}$ float matching.}
             \resumeItem{Engineered dynamic GEMV vs block-GEMM routing for $M=1$ autoregressive decoding versus prefill stages, achieving \textbf{93.1\% physical HBM bandwidth utilization} ($297.8\text{ GB/s}$ of $320\text{ GB/s}$ peak on Tesla T4).}
             \resumeItem{Implemented memory-efficient \texttt{torch.autograd.Function} backward passes recomputing activations on-chip, saving \textbf{0.86 MB HBM per forward pass} ($O(N)$ spatial memory reduction).}
           \resumeItemListEnd
@@ -147,7 +147,7 @@ Highly analytical \textbf{Generative AI Engineer} \& \textbf{Machine Learning En
           {\textbf{\href{https://circuit-scope-pi.vercel.app/}{NeuroScope \& CircuitScope}} $|$ \small\textit{AI Interpretability Developer} $|$ \small\textit{Remote} ~ \href{https://github.com/Gaurav711cgu/NeuroScope-main}{\faGithub}}{Feb 2026 - May 2026}
           \resumeItemListStart
             \resumeItem{Engineered a mechanistic interpretability workstation mapping neuron activations and polysemantic features across LLaMA/GPT-2 weights using Sparse Autoencoders (SAEs) and \texttt{TransformerLens}.}
-            \resumeItem{Isolated the Indirect Object Identification (IOI) circuit via Mean Ablation and activation patching across 144 attention heads, verifying Linear Taylor patch approximations ($r \approx 0.912$) via a FastAPI/React dashboard.}
+            \resumeItem{Isolated the Indirect Object Identification (IOI) circuit via Mean Ablation across \textbf{1,000 prompt pairs} (20,000 activation patches across 144 attention heads), verifying Linear Taylor patch approximations ($r \approx 0.912$).}
           \resumeItemListEnd
 
       \resumeProjectHeading
@@ -161,7 +161,7 @@ Highly analytical \textbf{Generative AI Engineer} \& \textbf{Machine Learning En
       \resumeProjectHeading
           {\textbf{\href{https://cinenexus.vercel.app/}{CineNexus}} $|$ \small\textit{Full-Stack \& ML Developer} $|$ \small\textit{Remote} ~ \href{https://github.com/Gaurav711cgu/CineNexus}{\faGithub}}{Sep 2025 - Jan 2026}
           \resumeItemListStart
-            \resumeItem{Engineered a hybrid recommendation engine merging collaborative filtering \textbf{Matrix Factorization (SVD)} via \texttt{scikit-surprise} and dense semantic embeddings via \texttt{sentence-transformers} to compute blended scores, serving queries in sub-100ms.}
+            \resumeItem{Engineered a hybrid recommendation engine evaluated on \textbf{100,000 MovieLens user rating pairs}, merging collaborative filtering \textbf{Matrix Factorization (SVD)} and dense semantic embeddings to serve blended recommendations in sub-100ms.}
             \resumeItem{Developed Netflix-style JWT authentication with secure 4-digit PIN locks, adaptive streaming via HLS.js, and S3-compatible media distribution via Cloudflare R2, reducing cloud storage costs to \$0 egress.}
           \resumeItemListEnd
 
