@@ -15,6 +15,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "TritonForge | GPU Kernel Optimization Dashboard",
   description: "High-performance Triton GPU kernel benchmarks for RMSNorm, SwiGLU, and FlashAttention.",
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 export default function RootLayout({
