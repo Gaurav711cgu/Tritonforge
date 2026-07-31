@@ -12,24 +12,6 @@ By restructuring memory load/store sequences and optimizing register allocation,
 
 ---
 
-## 📸 Platform Demonstration Showcase
-
-| **TritonForge Workstation Overview** | **Fused RMSNorm Benchmark** |
-| :---: | :---: |
-| ![TritonForge Dashboard Overview](screenshots/triton_dashboard_overview.png) | ![Fused RMSNorm Benchmark](screenshots/fused_rmsnorm_benchmark.png) |
-| *Real-Time GPU Kernel Benchmark Dashboard* | *RMSNorm Bandwidth Utilization & Latency Comparison* |
-
-| **Fused SwiGLU Gated Activation** | **Tiled FlashAttention-2 VRAM Saver** |
-| :---: | :---: |
-| ![Fused SwiGLU Benchmark](screenshots/fused_swiglu_benchmark.png) | ![Tiled FlashAttention-2 Benchmark](screenshots/tiled_flashattention_benchmark.png) |
-| *SiLU Gating Operator Speedup & Peak BW Gauge* | *O(N) Online Softmax SRAM Reduction & Memory Saved* |
-
-### **NVIDIA Tesla T4 Physical Hardware Metrics**
-![GPU Kernel Optimization Metrics](screenshots/gpu_kernel_optimization_metrics.png)  
-*Verified Hardware Execution Metrics & CUDA 12.1 Telemetry*
-
----
-
 ## Hardware Memory Hierarchy & Fusion Architecture
 
 ```mermaid
