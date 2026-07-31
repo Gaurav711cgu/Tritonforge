@@ -70,16 +70,16 @@
 ```mermaid
 graph TD
     subgraph PyTorch_Eager["PyTorch Eager Unfused"]
-        HBM1["HBM Global Memory"] -->|"Read Activations"| K1["RMSNorm Kernel"]
-        K1 -->|"Write Norm Output"| HBM2["HBM Global Memory"]
-        HBM2 -->|"Read Norm Output"| K2["Linear QKV Projection"]
-        K2 -->|"Write Final Output"| HBM3["HBM Global Memory"]
+        HBM1["HBM Global Memory"] -->|Read Activations| K1["RMSNorm Kernel"]
+        K1 -->|Write Norm Output| HBM2["HBM Global Memory"]
+        HBM2 -->|Read Norm Output| K2["Linear QKV Projection"]
+        K2 -->|Write Final Output| HBM3["HBM Global Memory"]
     end
 
     subgraph TritonForge["TritonForge Fused Kernel"]
-        HBM_IN["HBM Global Memory"] -->|"Single Vectorized Load"| SRAM["SRAM Registers On-Chip"]
-        SRAM -->|"Fused Normalization + GEMM"| REG["Register File Scaling"]
-        REG -->|"Single Coalesced Store"| HBM_OUT["HBM Global Memory"]
+        HBM_IN["HBM Global Memory"] -->|Single Vectorized Load| SRAM["SRAM Registers On-Chip"]
+        SRAM -->|Fused Normalization + GEMM| REG["Register File Scaling"]
+        REG -->|Single Coalesced Store| HBM_OUT["HBM Global Memory"]
     end
 ```
 
