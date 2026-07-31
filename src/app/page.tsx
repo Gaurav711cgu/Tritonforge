@@ -69,7 +69,12 @@ export default function BenchmarkDashboard() {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#06090e] text-slate-100 flex flex-col items-center justify-center gap-4">
-        <div className="w-12 h-12 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
+        <img 
+          src={LOGO_DATA_URI || "/logo.png"} 
+          alt="TritonForge Logo" 
+          className="w-12 h-12 rounded-xl border border-cyan-500/40 object-cover shadow-[0_0_16px_rgba(0,229,255,0.3)] animate-pulse" 
+        />
+        <div className="w-10 h-10 border-4 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin" />
         <p className="text-sm font-mono text-slate-400">Loading TritonForge Benchmarks...</p>
       </div>
     );
