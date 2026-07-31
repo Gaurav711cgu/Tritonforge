@@ -68,17 +68,17 @@
 ## System Architecture
 
 ```mermaid
-graph TD
-    subgraph PyTorch_Eager["PyTorch Eager Unfused"]
+flowchart TD
+    subgraph EAGER["PyTorch Eager Unfused"]
         HBM1["HBM Global Memory"] -->|Read Activations| K1["RMSNorm Kernel"]
-        K1 -->|Write Norm Output| HBM2["HBM Global Memory"]
-        HBM2 -->|Read Norm Output| K2["Linear QKV Projection"]
-        K2 -->|Write Final Output| HBM3["HBM Global Memory"]
+        K1 -->|Write Output| HBM2["HBM Global Memory"]
+        HBM2 -->|Read Output| K2["Linear QKV Projection"]
+        K2 -->|Write Output| HBM3["HBM Global Memory"]
     end
 
-    subgraph TritonForge["TritonForge Fused Kernel"]
+    subgraph FUSED["TritonForge Fused Kernel"]
         HBM_IN["HBM Global Memory"] -->|Single Vectorized Load| SRAM["SRAM Registers On-Chip"]
-        SRAM -->|Fused Normalization + GEMM| REG["Register File Scaling"]
+        SRAM -->|Fused Normalization & GEMM| REG["Register File Scaling"]
         REG -->|Single Coalesced Store| HBM_OUT["HBM Global Memory"]
     end
 ```
