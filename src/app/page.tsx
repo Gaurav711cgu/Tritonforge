@@ -103,7 +103,8 @@ export default function BenchmarkDashboard() {
       {/* HEADER */}
       <header className="max-w-7xl mx-auto mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-slate-900 pb-8">
         <div>
-          <div className="flex items-center gap-3 mb-2">
+          <div className="flex items-center gap-4 mb-4">
+            <img src="/logo.png" alt="TritonForge Logo" className="brand-logo-img" />
             <span className="text-[10px] font-bold font-mono tracking-widest text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded uppercase">
               TritonForge Workstation
             </span>
