@@ -6,7 +6,7 @@
 <br/>
 
 [![CI/CD Pipeline](https://img.shields.io/badge/CI%2FCD-Passing-22c55e?style=flat-square&logo=githubactions&logoColor=white)](#)
-[![Pytest](https://img.shields.io/badge/Pytest-10%2F10%20Passed-22c55e?style=flat-square&logo=pytest&logoColor=white)](#)
+[![Pytest](https://img.shields.io/badge/Pytest-15%2F15%20Passed-22c55e?style=flat-square&logo=pytest&logoColor=white)](#testing--verification)
 [![SAST Security](https://img.shields.io/badge/SAST-Clean-22c55e?style=flat-square&logo=python&logoColor=white)](#)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.1.0-EE4C2C?style=flat-square&logo=pytorch&logoColor=white)](https://pytorch.org)
@@ -15,7 +15,7 @@
 
 <br/>
 
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](./notebooks/TritonForge_Benchmark.ipynb) &nbsp;·&nbsp; [Live Demo](#) &nbsp;·&nbsp; [API Documentation](#api-documentation) &nbsp;·&nbsp; [System Architecture](#system-architecture) &nbsp;·&nbsp; [Run Tests](#testing--verification)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](./notebooks/TritonForge_Benchmark.ipynb) &nbsp;·&nbsp; [Roofline Model Card](./PERFORMANCE_CARD.md) &nbsp;·&nbsp; [API Documentation](#api-documentation) &nbsp;·&nbsp; [System Architecture](#system-architecture) &nbsp;·&nbsp; [Run Tests](#testing--verification)
 
 </div>
 
