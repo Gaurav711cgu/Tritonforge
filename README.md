@@ -35,7 +35,7 @@
 
 ---
 
-## ⚡ PyTorch Eager & TritonForge Head-to-Head Benchmarks
+##  PyTorch Eager & TritonForge Head-to-Head Benchmarks
 
 > Measured on physical NVIDIA Tesla T4 GPU (320 GB/s peak HBM bandwidth, CUDA 12.1, PyTorch 2.4.0 / 2.1.0):
 
@@ -48,7 +48,7 @@
 
 ---
 
-## 🛠️ CUDA C++ Extension & Autograd Training Support
+##  CUDA C++ Extension & Autograd Training Support
 
 TritonForge provides dual-mode execution for both inference serving and training:
 
@@ -64,7 +64,7 @@ TritonForge provides dual-mode execution for both inference serving and training
 
 ---
 
-## 📂 Repository Structure
+##  Repository Structure
 
 ```yaml
 tritonforge/
@@ -97,7 +97,7 @@ tritonforge/
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### 1. Run Unit & Numerical Precision Tests
 ```bash
