@@ -21,7 +21,7 @@
 
 ---
 
-## Executive Summary & Recruiters' Highlight
+## Executive Summary & Technical Overview
 
 > **TritonForge** is a high-performance GPU kernel engineering workstation built on **OpenAI Triton** and raw **CUDA C++**. The workstation bypasses eager PyTorch runtime overhead by fusing elementwise operations into single-pass SRAM executions, writing custom CUDA C++ extensions with warp-level primitives, and implementing exact mathematical autograd backward passes.
 
@@ -35,7 +35,7 @@
 
 ---
 
-## ⚡ Empirical Hardware Benchmarks
+## Empirical Hardware Benchmarks
 
 > Measured on physical NVIDIA Tesla T4 GPU (320 GB/s HBM bandwidth limit, CUDA 12.1, PyTorch 2.4.0):
 
@@ -48,7 +48,7 @@
 
 ---
 
-## 🏛️ Low-Level Hardware & OS Architecture
+## Low-Level Hardware & OS Architecture
 
 ```mermaid
 flowchart TD
@@ -84,7 +84,7 @@ flowchart TD
 
 ---
 
-## 🛠️ Low-Level Systems & OS Technical Mechanics
+## Low-Level Systems & OS Technical Mechanics
 
 ### 1. CUDA C++ Warp-Level Cooperative Reductions (`rmsnorm_cuda.cu`)
 Standard PyTorch eager RMSNorm executes multiple kernel launches to compute variance $\frac{1}{N} \sum x_i^2$, write variance back to HBM, read variance from HBM, and scale output $y_i = \frac{x_i}{\sqrt{\text{Var} + \epsilon}} \cdot w_i$.
@@ -109,7 +109,7 @@ Verified with `torch.autograd.gradcheck()` across float32, float16, and bfloat16
 
 ---
 
-## 📂 Repository Structure
+## Repository Structure
 
 ```yaml
 tritonforge/
@@ -138,7 +138,7 @@ tritonforge/
 
 ---
 
-## 🚀 Testing & Verification
+## Testing & Verification
 
 Execute the complete automated test suite (28/28 passing):
 
