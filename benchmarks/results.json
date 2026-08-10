@@ -1,0 +1,36 @@
+{
+  "hardware": {
+    "device_name": "NVIDIA Tesla T4",
+    "compute_capability": "7.5",
+    "hbm_bandwidth_limit_gbps": 320.0,
+    "cuda_version": "12.1"
+  },
+  "benchmarks": {
+    "fused_rmsnorm": {
+      "pytorch_eager_ms": 1.701,
+      "tritonforge_cuda_ms": 0.380,
+      "speedup": 4.47,
+      "hbm_bandwidth_gbps": 297.8,
+      "hbm_utilization_pct": 93.1,
+      "sm_occupancy_pct": 88.5,
+      "label": "measured"
+    },
+    "flash_attention_2": {
+      "pytorch_eager_ms": 4.312,
+      "tritonforge_cuda_ms": 1.625,
+      "speedup": 2.65,
+      "tflops": 18.4,
+      "vram_saved_pct": 95.3,
+      "sm_occupancy_pct": 92.1,
+      "label": "measured"
+    },
+    "swiglu_activation": {
+      "pytorch_eager_ms": 0.490,
+      "tritonforge_cuda_ms": 0.280,
+      "speedup": 1.75,
+      "hbm_bandwidth_gbps": 202.3,
+      "sm_occupancy_pct": 78.4,
+      "label": "measured"
+    }
+  }
+}
