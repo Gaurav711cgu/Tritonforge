@@ -1,7 +1,0 @@
-# Core — pinned for Python 3.13 compatibility (HF Spaces default)
-torch>=2.4.0
-gradio==5.29.0
-numpy>=1.24.0
-
-# GPU kernels (HF T4 has CUDA 12)
-triton>=3.0.0
