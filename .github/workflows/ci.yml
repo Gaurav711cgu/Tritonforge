@@ -7,13 +7,19 @@ on:
     branches: [main, frontend]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -23,15 +29,19 @@ jobs:
 
       - name: Install Dependencies
         run: npm ci
+        timeout-minutes: 5
 
       - name: Build
         run: npm run build
+        timeout-minutes: 5
         env:
           NEXT_TELEMETRY_DISABLED: 1
 
       - name: Deploy to Vercel (Production)
         if: github.event_name == 'push'
-        run: npx vercel --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
+        run: npx vercel --prod --yes
+        timeout-minutes: 5
         env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
