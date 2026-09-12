@@ -1,0 +1,25 @@
+{
+  "d_model": 2048,
+  "n_heads": 8,
+  "head_dim": 256,
+  "results": [
+    {
+      "seq_len": 512,
+      "pytorch_ms": 1.82,
+      "tritonforge_ms": 0.68,
+      "speedup": 2.68
+    },
+    {
+      "seq_len": 1024,
+      "pytorch_ms": 4.21,
+      "tritonforge_ms": 1.41,
+      "speedup": 2.98
+    },
+    {
+      "seq_len": 2048,
+      "pytorch_ms": 11.4,
+      "tritonforge_ms": 3.52,
+      "speedup": 3.24
+    }
+  ]
+}

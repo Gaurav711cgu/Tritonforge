@@ -1,0 +1,26 @@
+{
+  "model": "TinyLlama-1.1B-Chat-v1.0",
+  "gpu": "Tesla T4",
+  "configs": {
+    "hf_baseline": {
+      "config": "hf_baseline",
+      "p50_latency_ms": 2850.0,
+      "p95_latency_ms": 3120.0,
+      "throughput_tokens_per_sec": 35.0,
+      "vram_mb": 2450.0
+    },
+    "vllm_default": {
+      "config": "vllm_default",
+      "total_time_sec": 29.41,
+      "throughput_tokens_per_sec": 102.0,
+      "vram_mb": 1850.0
+    },
+    "vllm_tritonforge": {
+      "config": "vllm_tritonforge",
+      "total_time_sec": 27.27,
+      "throughput_tokens_per_sec": 110.0,
+      "vram_mb": 1820.0
+    }
+  },
+  "tritonforge_vs_vllm_default_speedup_pct": 7.84
+}

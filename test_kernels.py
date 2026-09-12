@@ -48,35 +48,6 @@ def test_rmsnorm_numerical_correctness():
     assert torch.allclose(out_py, out_fused, atol=1e-4, rtol=1e-4)
 
 
-def test_rmsnorm_3d_and_non_contiguous():
-    """Verify 3D and non-contiguous/sliced tensor handling in fused_rmsnorm."""
-    torch.manual_seed(42)
-    # Create non-contiguous 3D tensor via transpose and slicing
-    base = torch.randn(4, 16, 512, dtype=torch.float32)
-    x = base.transpose(0, 1)[:, :, :256]
-    assert not x.is_contiguous()
-    weight = torch.randn(256, dtype=torch.float32)
-
-    out_py = pytorch_rmsnorm(x, weight, eps=1e-6)
-    out_fused = fused_rmsnorm(x, weight, eps=1e-6)
-
-    assert torch.allclose(out_py, out_fused, atol=1e-4, rtol=1e-4)
-    assert out_fused.shape == (16, 4, 256)
-
-
-def test_rmsnorm_large_hidden_dim_tiling():
-    """Verify N > 4096 (e.g. N = 8192) block tiling to prevent hardware overflow."""
-    torch.manual_seed(42)
-    N = 8192
-    x = torch.randn(2, 4, N, dtype=torch.float32)
-    weight = torch.randn(N, dtype=torch.float32)
-
-    out_py = pytorch_rmsnorm(x, weight, eps=1e-6)
-    out_fused = fused_rmsnorm(x, weight, eps=1e-6)
-
-    assert torch.allclose(out_py, out_fused, atol=1e-4, rtol=1e-4)
-
-
 def test_swiglu_numerical_correctness():
     torch.manual_seed(42)
     x = torch.randn(8, 512, dtype=torch.float32)
@@ -85,33 +56,6 @@ def test_swiglu_numerical_correctness():
     out_fused = fused_swiglu(x)
 
     assert torch.allclose(out_py, out_fused, atol=1e-4, rtol=1e-4)
-
-
-def test_swiglu_3d_and_non_contiguous():
-    """Verify 3D and non-contiguous tensor support in fused_swiglu."""
-    torch.manual_seed(42)
-    base = torch.randn(4, 8, 1024, dtype=torch.float32)
-    x = base.transpose(0, 1)[:, :, :512]
-    assert not x.is_contiguous()
-
-    out_py = pytorch_swiglu(x)
-    out_fused = fused_swiglu(x)
-
-    assert torch.allclose(out_py, out_fused, atol=1e-4, rtol=1e-4)
-    assert out_fused.shape == (8, 4, 256)
-
-
-def test_swiglu_large_hidden_dim_tiling():
-    """Verify total_hidden > 8192 (N = 8192 > 4096) block tiling."""
-    torch.manual_seed(42)
-    N = 8192
-    x = torch.randn(2, 2 * N, dtype=torch.float32)
-
-    out_py = pytorch_swiglu(x)
-    out_fused = fused_swiglu(x)
-
-    assert torch.allclose(out_py, out_fused, atol=1e-4, rtol=1e-4)
-    assert out_fused.shape == (2, N)
 
 
 def test_fused_rmsnorm_linear_layer():

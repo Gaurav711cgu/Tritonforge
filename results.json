@@ -1,0 +1,86 @@
+{
+  "device": "cpu",
+  "timestamp": 1787238413.029471,
+  "results": [
+    {
+      "kernel": "RMSNorm",
+      "shape": "(16, 512, 1024)",
+      "eager_ms": 3.5027,
+      "fused_ms": 3.4815,
+      "speedup": 1.01,
+      "max_abs_err": "0.00e+00"
+    },
+    {
+      "kernel": "RMSNorm",
+      "shape": "(16, 512, 2048)",
+      "eager_ms": 7.1989,
+      "fused_ms": 7.3161,
+      "speedup": 0.98,
+      "max_abs_err": "0.00e+00"
+    },
+    {
+      "kernel": "RMSNorm",
+      "shape": "(16, 512, 4096)",
+      "eager_ms": 14.3224,
+      "fused_ms": 13.9006,
+      "speedup": 1.03,
+      "max_abs_err": "0.00e+00"
+    },
+    {
+      "kernel": "Attention",
+      "shape": "(4, 8, 128, 64)",
+      "eager_ms": 0.5331,
+      "fused_ms": 0.52,
+      "speedup": 1.03,
+      "max_abs_err": "0.00e+00"
+    },
+    {
+      "kernel": "Attention",
+      "shape": "(4, 8, 256, 64)",
+      "eager_ms": 2.1788,
+      "fused_ms": 1.9777,
+      "speedup": 1.1,
+      "max_abs_err": "0.00e+00"
+    },
+    {
+      "kernel": "Attention",
+      "shape": "(4, 8, 512, 64)",
+      "eager_ms": 9.1192,
+      "fused_ms": 8.9829,
+      "speedup": 1.02,
+      "max_abs_err": "0.00e+00"
+    },
+    {
+      "kernel": "SwiGLU",
+      "shape": "(16, 512, 2048)",
+      "eager_ms": 5.113,
+      "fused_ms": 5.0573,
+      "speedup": 1.01,
+      "max_abs_err": "0.00e+00"
+    },
+    {
+      "kernel": "SwiGLU",
+      "shape": "(16, 512, 4096)",
+      "eager_ms": 15.1374,
+      "fused_ms": 10.4643,
+      "speedup": 1.45,
+      "max_abs_err": "0.00e+00"
+    },
+    {
+      "kernel": "SwiGLU",
+      "shape": "(16, 512, 8192)",
+      "eager_ms": 21.173,
+      "fused_ms": 19.7708,
+      "speedup": 1.07,
+      "max_abs_err": "0.00e+00"
+    },
+    {
+      "kernel": "FusedRMSNormLinear",
+      "shape": "(8, 256, 1024)",
+      "eager_ms": 5.9475,
+      "fused_ms": 5.4287,
+      "speedup": 1.1,
+      "max_abs_err": "0.00e+00"
+    }
+  ]
+}
